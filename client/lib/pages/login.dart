@@ -4,7 +4,6 @@ import 'package:wallpaper/pages/register.dart';
 import 'package:wallpaper/services/auth_service.dart';
 import 'package:wallpaper/widgets/reusable/custom_button.dart';
 import 'package:wallpaper/widgets/reusable/custom_input.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,16 +24,13 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       try {
-        await authService.login(
+        final result = await authService.login(
           password: passwordController.text,
           email: emailController.text,
         );
-
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -48,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,10 +78,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: MediaQuery.of(context).size.height * 0.3,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+
+                    
                     CustomInput(
+                      obsecureText: false,
                       controller: emailController,
                       labalText: "Email",
-                      obsecureText: false,
                       validator: (value) =>
                           value!.isEmpty ? "Please enter your email" : null,
                     ),
@@ -99,18 +96,21 @@ class _LoginPageState extends State<LoginPage> {
                           value!.isEmpty ? "Please enter your password" : null,
                     ),
                     const SizedBox(height: 20),
+
+                    
                     CustomButton(
                       isLoading: isLoading,
-                      onPresed: () {},
+                      onPresed: login,
                       labelText: "Login",
                     ),
+
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterPage()),
+                              builder: (context) => RegisterPage()),
                         );
                       },
                       child: const Text(

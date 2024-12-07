@@ -42,41 +42,55 @@ class AuthService {
     required String password,
   }) async {
     try {
+      // Perform the login request
       final response = await http.post(
-        Uri.parse("$baseUrl/login"),
+        Uri.parse('$baseUrl/login'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(
-          {
-            "email": email,
-            "password": password,
-          },
-        ),
+        body: jsonEncode({'email': email, 'password': password}),
       );
+
+      // Log the response status and body for debugging purposes
+      print('Response Status: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      // Check if the response is successful (status code 200)
       if (response.statusCode == 200) {
+        // Decode the response body
         final result = jsonDecode(response.body);
 
-        // store the shared preferences
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        await preferences.setString("token", result["token"]);
+        // Store the token in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', result['token']);
+
+        // Retrieve the token for verification
+        final token = await prefs.getString('token');
+        print('Stored Token: $token');
+
+        // Return the result
         return result;
       } else {
-        throw Exception("Failed to login");
+        // Log and throw an exception with more details for non-200 responses
+        print('Failed to login - Status Code: ${response.statusCode}');
+        print('Response: ${response.body}');
+        throw Exception('Failed to login. Status code: ${response.statusCode}');
       }
-    } catch (e) {
-      return {'error': e.toString()};
+    } catch (error) {
+      // Catch and log any errors during the login process
+      print('Error during login: $error');
+      throw Exception('An error occurred during login: $error');
     }
   }
 
-  //todo: logout
-  Future<void> logout() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove("token");
-    print("Log out");
+  // Get stored token
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
-  //todo: get jwt token
-  Future<String?> getToken() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString("token");
+  // Logout user
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    print('Logged out');
   }
 }

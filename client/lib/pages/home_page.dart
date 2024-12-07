@@ -1,7 +1,6 @@
-
-
-
 import 'package:flutter/material.dart';
+import 'package:wallpaper/pages/login.dart';
+import 'package:wallpaper/services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +15,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("WallFIt"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await AuthService().logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
     );
   }
