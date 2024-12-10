@@ -11,6 +11,8 @@ const authMiddleware = (req, res, next) => {
     if(!token){
         return res.status(401).json({msg:"No token, authorization denied"});
     } 
+    console.log(token);
+
     try{
         // verfify token;
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -18,7 +20,7 @@ const authMiddleware = (req, res, next) => {
         next();
 
     } catch(err){
-        console.err("Token verification error",err.message);
+        // console.err("Token verification error",err.message);
 
         if(err.name === "jwt expired"){
             return res.status(401).json({msg:"Token has expired"});

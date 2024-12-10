@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallpaper/models/wallpaper_model.dart';
+import 'package:wallpaper/pages/single_wallpaper_page.dart';
 import 'package:wallpaper/services/wallpaper_service.dart';
 import 'package:wallpaper/widgets/reusable/custom_button.dart';
 import 'package:wallpaper/widgets/reusable/custom_input.dart';
@@ -81,7 +82,15 @@ class _WallpaperPageState extends State<WallpaperPage> {
                             itemBuilder: (context, index) {
                               final wallpaper = _wallpapers[index];
                               return GestureDetector(
-                                onTap: () {                                  
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SingleWallpaperPage(
+                                          wallpaper: wallpaper
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   child: Column(
@@ -92,7 +101,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                       Padding(
+                                      Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           wallpaper.description,

@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/wallpaper", wallpaperRoute);
-app.use("/api/favourites", favoritesRoutes);
+app.use("/api/favorites", favoritesRoutes);
 
 mongoose
    .connect(process.env.MONGO_URI)

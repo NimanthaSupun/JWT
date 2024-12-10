@@ -38,11 +38,11 @@ class FavoriteService {
       print(response.body);
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to add to favorites');
+        throw Exception(response.body);
       }
     } catch (e) {
       print('Error adding to favorites: $e');
-      throw Exception('Failed to add to favorites');
+      throw Exception(e.toString());
     }
   }
 
