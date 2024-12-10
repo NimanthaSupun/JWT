@@ -4,7 +4,6 @@ import 'package:wallpaper/pages/favourite_page.dart';
 import 'package:wallpaper/pages/login.dart';
 import 'package:wallpaper/pages/wallpaper_page.dart';
 import 'package:wallpaper/services/auth_service.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

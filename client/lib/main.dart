@@ -48,11 +48,9 @@ class _CheckAuthStatusState extends State<CheckAuthStatus> {
     super.initState();
     checkLoginStatus();
   }
-
-
-
   @override
   Widget build(BuildContext context) {
     return isLoggedIn ? const HomePage() : LoginPage();
   }
 }
+
